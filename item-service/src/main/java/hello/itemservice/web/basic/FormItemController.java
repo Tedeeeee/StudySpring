@@ -33,7 +33,8 @@ public class FormItemController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("item", new Item());
         return "/basic/addForm";
     }
 
@@ -105,6 +106,4 @@ public class FormItemController {
         itemRepository.update(itemId, item);
         return "redirect:/basic/items/{itemId}";
     }
-
-
 }
