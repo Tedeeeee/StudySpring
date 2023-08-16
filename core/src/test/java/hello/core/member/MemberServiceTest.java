@@ -16,11 +16,10 @@ public class MemberServiceTest {
         // when
         memberService.join(member);
         Member findMember = memberService.findMember(1L);
-        // 만약 이것이 2L 으로 없는 회원을 찾아서 확인을 해보면
-        Member findMember2 = memberService.findMember(2L);
+        // 만약 이것이 2L 으로 없는 회원을 찾아서 확인을 해보면 안된다
+        //Member findMember2 = memberService.findMember(2L);
 
         // then
         Assertions.assertThat(member).isEqualTo(findMember);
-        Assertions.assertThat(member).isEqualTo(findMember2);
     }
 }
