@@ -1,23 +1,13 @@
 package hello.core.member;
 
-import hello.core.AppConfig;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// join 안에 given, when, then 은 테스트를 작성할때 도움이 된다. 이렇게 주고(given) 그것을 실행했을때(when) 그러면 이렇게 된다(then)이다.
 public class MemberServiceTest {
 
-    // MemberService memberService = new MemberServiceImpl();
-    MemberService memberService;
+    MemberService memberService = new MemberServiceImpl();
 
-    @BeforeEach
-    public void beforeEach() {
-        AppConfig appConfig = new AppConfig();
-        memberService = appConfig.memberService();
-    }
-
-    // Test 할때 사용하는 어노테이션
+    // 나의 회원가입이 정확히 이루어지고 있는지 확인하는 테스트기능
     @Test
     void join() {
         // given
@@ -26,8 +16,11 @@ public class MemberServiceTest {
         // when
         memberService.join(member);
         Member findMember = memberService.findMember(1L);
+        // 만약 이것이 2L 으로 없는 회원을 찾아서 확인을 해보면
+        Member findMember2 = memberService.findMember(2L);
 
-        // then ... Assertions 는 비교할때 많이 사용된다. Test 를 작성할때 많이 보게 될것이다.
+        // then
         Assertions.assertThat(member).isEqualTo(findMember);
+        Assertions.assertThat(member).isEqualTo(findMember2);
     }
 }

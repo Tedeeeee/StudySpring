@@ -1,21 +1,13 @@
 package hello.core.member;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
+// MemberService 의 구현체
+// 추상화에 의존하게 만들수 있게 한다.
 public class MemberServiceImpl implements MemberService {
 
-    // 이렇게 불러주면 다형성으로 인해 MemoryMemberRepository 에 의해 save 와 findById를 사용할 수 있다
-    // private final MemberRepository memberRepository = new MemoryMemberRepository();
-
-    // 이렇게 인터페이스만 불러오고 생성자를 통해 가져온다. ( 추상화만 가져온다 DIP 를 지키기 시작 )
-    private final MemberRepository memberRepository;
-
-    @Autowired // 의존관계 주입을 자동으로 연결해준다.
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    // MemberServiceImpl 에서 사용할 (사용자 저장과 사용자 찾기)를 가지고 있는것을 생성해야함
+    // 이것은 문제가 있다. 바로 DIP 를 위배하고 있는 것인데
+    // MemberRepository 는 추상화지만 MemoryMemberRepository 는 구체화로써 DIP 를 위배하게 되는것이다.
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     @Override
     public void join(Member member) {
@@ -25,10 +17,5 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
-    }
-
-    // Test 용도
-    public MemberRepository getMemberRepository() {
-        return memberRepository;
     }
 }
